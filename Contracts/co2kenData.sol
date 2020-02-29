@@ -35,6 +35,11 @@ contract CO2kenData is Ownable {
         co2kenPrice = _co2kenPrice;
         emit CO2kenPriceChanged(_co2kenPrice);
     }
+    
+    function setGasEnergyFootprint(uint _gasEnergyFootprint) public onlyOwner() {
+        gasEnergyFootprint = _gasEnergyFootprint;
+        emit GasEnergyFootprintChanged(_gasEnergyFootprint);
+    }
 
     function setGridEmissionFactor(uint _gridEmissionFactor) public onlyOwner() {
         gridEmissionFactor = _gridEmissionFactor;
