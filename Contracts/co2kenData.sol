@@ -28,7 +28,7 @@ contract CO2kenData is Ownable {
 
     event CO2kenPriceChanged(uint256 newPrice);
     event GasEnergyFootprintChanged(uint256 newGasEnergyFootprint);
-    event GridEmissionFactorChanged(unit256 newGridEmissionFactor);
+    event GridEmissionFactorChanged(uint256 newGridEmissionFactor);
     event GasCarbonFootprintChanged(uint256 newGasCarbonFootprint);
     
     function setCO2kenPrice(uint _co2kenPrice) public onlyOwner() {
