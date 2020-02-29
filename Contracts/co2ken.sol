@@ -30,7 +30,7 @@ contract CO2ken is Ownable {
     uint256 public balance;
     
     event CarbonOffsetted(address indexed from, uint256 value);
-    event CarbonMinted(string ipfsHash, uint256 dollarValue, uint256 tokensMinted);
+    event Minted(string ipfsHash, uint256 dollarValue, uint256 tokensMinted);
     event Withdrawal(uint256 value);
 
     constructor(address storageTarget, address daiTarget, string memory name, string memory symbol, uint8 decimals) public {
@@ -44,10 +44,10 @@ contract CO2ken is Ownable {
         storageData = CO2kenDataLike(storageTarget);
     }
     
-    function mintCarbon(string memory ipfsHash, uint256 amount) public onlyOwner() {
-        uint256 amountToMint = (amount / storageData.co2kenPrice()) * 10 ** 18;
-        balance = balance.add(amountToMint);
-        emit CarbonMinted(ipfsHash, amount, amountToMint);
+    // @dev amountTokens = number of tokens (certificates bought) in 10e18
+    function mint(string memory ipfsHash, uint256 amountTokens) public onlyOwner() {
+        balance = balance.add(amountTokens);
+        emit Minted(ipfsHash, amountTokens, storageData.co2kenPrice());
     }
     
     function approve() public {
