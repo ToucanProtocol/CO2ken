@@ -14,11 +14,11 @@ contract CarbonFootprintData {
     
     
     function setTxCarbonFootprint(uint _txCarbonFootprint) public {
-        txCarbonFootprint == _txCarbonFootprint;
+        txCarbonFootprint = _txCarbonFootprint;
     }
     
     function setgasCarbonFootprint(uint _gasCarbonFootprint) public {
-        gasCarbonFootprint == _gasCarbonFootprint;
+        gasCarbonFootprint = _gasCarbonFootprint;
     }
     
     
