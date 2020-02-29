@@ -12,14 +12,20 @@ contract CO2kenData is Ownable {
     
     // https://hackernoon.com/green-smart-contracts-theres-more-to-blockchain-energy-consumption-than-consensus-898fb23eea75
     // https://twitter.com/CryptoDemetrius/status/1144357399744196609
-    uint256 public gasCarbonFootprint = 400;      // mWh per Ethereum TX (1000 milliWattHours = 1 Wh)
+    uint256 public gasEnergyFootprint = 407470449796862;      // kWh/gas with 18 decimals
 
     // Grid emission factor of China from https://www.iges.or.jp/en/pub/list-grid-emission-factor/en
     // Calculations on https://docs.google.com/spreadsheets/d/1IpgKLB5e6JR12gjSplZ-Y1_xB9ylt8SNFyEKmhPtQ1A/edit?usp=sharing
-    uint256 public gridEmissionFactor = 872000;   // tCO2/Wh
+    uint256 public gridEmissionFactor = 872000000000000;   // tCO2/kWh with 18 decimals
+
+    // https://hackernoon.com/green-smart-contracts-theres-more-to-blockchain-energy-consumption-than-consensus-898fb23eea75
+    // https://twitter.com/CryptoDemetrius/status/1144357399744196609
+    // Is equal to gasEnergyFootprint * gridEmissionFactor
+    uint256 public gasCarbonFootprint = 355314232223;      // tCO2/gas with 18 decimals
 
     event CO2kenPriceChanged(uint256 newPrice);
-    event TxCarbonFootprintChanged(uint256 newTxCarbonFootprint);
+    event GasEnergyFootprintChanged(uint256 newGasEnergyFootprint);
+    event GridEmissionFactorChanged(unit256 newGridEmissionFactor);
     event GasCarbonFootprintChanged(uint256 newGasCarbonFootprint);
     
     function setCO2kenPrice(uint _co2kenPrice) public onlyOwner() {
@@ -27,18 +33,14 @@ contract CO2kenData is Ownable {
         emit CO2kenPriceChanged(_co2kenPrice);
     }
 
-    function setTxCarbonFootprint(uint _txCarbonFootprint) public onlyOwner() {
-        txCarbonFootprint = _txCarbonFootprint;
-        emit TxCarbonFootprintChanged(_txCarbonFootprint);
+    function setGridEmissionFactor(uint _gridEmissionFactor) public onlyOwner() {
+        gridEmissionFactor = _gridEmissionFactor;
+        emit TxCarbonFootprintChanged(_gridEmissionFactor);
     }
     
-    function setgasCarbonFootprint(uint _gasCarbonFootprint) public onlyOwner() {
+    function setGasCarbonFootprint(uint _gasCarbonFootprint) public onlyOwner() {
         gasCarbonFootprint = _gasCarbonFootprint;
         emit GasCarbonFootprintChanged(_gasCarbonFootprint);
     }
-    
-    
-    
-    
     
 }
