@@ -38,7 +38,7 @@ contract CO2kenData is Ownable {
 
     function setGridEmissionFactor(uint _gridEmissionFactor) public onlyOwner() {
         gridEmissionFactor = _gridEmissionFactor;
-        emit TxCarbonFootprintChanged(_gridEmissionFactor);
+        emit GridEmissionFactorChanged(_gridEmissionFactor);
     }
     
     function setGasCarbonFootprint(uint _gasCarbonFootprint) public onlyOwner() {
