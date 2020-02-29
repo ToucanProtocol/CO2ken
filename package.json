@@ -1,0 +1,22 @@
+{
+  "name": "co2ken",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphmc/CO2ken.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raphmc/CO2ken/issues"
+  },
+  "homepage": "https://github.com/raphmc/CO2ken#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^2.5.0"
+  }
+}
