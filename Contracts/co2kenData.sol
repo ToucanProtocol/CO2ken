@@ -3,7 +3,7 @@ pragma solidity ^0.6.0;
 import "@openzeppelin/ownership/Ownable.sol";
 import "@openzeppelin/math/SafeMath.sol";
 
-contract CarbonFootprintData is Ownable {
+contract CO2kenData is Ownable {
     
     // DAO contract address
     address owner;
