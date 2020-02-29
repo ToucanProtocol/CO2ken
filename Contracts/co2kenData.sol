@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 
 contract CO2kenData is Ownable {
 
-    uint256 public co2kenPrice = 10e18;      // Price in DAI with 18 decimals
+    uint256 public co2kenPrice; // Price in DAI with 18 decimals
     
     // https://digiconomist.net/ethereum-energy-consumption
     //uint256 txCarbonFootprint = 31000000;    // mWh per Ethereum TX (1000 milliWattHours = 1 Wh)
@@ -30,6 +30,11 @@ contract CO2kenData is Ownable {
     event GasEnergyFootprintChanged(uint256 newGasEnergyFootprint);
     event GridEmissionFactorChanged(uint256 newGridEmissionFactor);
     event GasCarbonFootprintChanged(uint256 newGasCarbonFootprint);
+    
+    constructor(uint256 _co2kenPrice) public {
+        co2kenPrice = _co2kenPrice;
+        emit CO2kenPriceChanged(_co2kenPrice);
+    }
     
     function setCO2kenPrice(uint _co2kenPrice) public onlyOwner() {
         co2kenPrice = _co2kenPrice;
