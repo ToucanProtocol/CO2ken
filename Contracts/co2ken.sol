@@ -12,33 +12,36 @@ abstract contract CO2kenDataLike {
 
 abstract contract DaiLike {
     function transferFrom(address src, address dst, uint wad) public virtual returns (bool);
+    function balanceOf(address tokenOwner) public view virtual returns (uint balance);
     function transfer(address dst, uint wad) external virtual returns (bool);
     function approve(address usr, uint wad) external virtual returns (bool);
 }
 
-contract CO2KEN is Ownable {
+contract CO2ken is Ownable {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
     
-    CO2kenDataLike co2ken;
+    CO2kenDataLike storageData;
     DaiLike daiToken;
     
     using SafeMath for uint256;
 
     uint256 public balance;
     
-    event CarbonOfsetted(address indexed from, uint256 value);
+    event CarbonOffsetted(address indexed from, uint256 value);
     event CarbonMinted(uint256 value);
     event Withdrawal(uint256 value);
 
-    constructor(address tokenTarget, address daiTarget, string memory name, string memory symbol, uint8 decimals) public {
-        dataStorage = CO2kenDataLike(tokenTarget);
+    constructor(address storageTarget, address daiTarget, string memory name, string memory symbol, uint8 decimals) public {
+        // set our token detail
         _name = name;
         _symbol = symbol;
         _decimals = decimals;
         // interface with dai token
         daiToken = DaiLike(daiTarget);
+        // interface with our "oracle"
+        storageData = CO2kenDataLike(storageTarget);
     }
     
     function mintCarbon(uint256 amount) public onlyOwner() {
@@ -51,8 +54,8 @@ contract CO2KEN is Ownable {
     }
 
     function withdraw() public onlyOwner() {
-        daiToken.transfer(owner(), balance[address(this)]);
-        emit Withdrawal(balance[address(this)]);
+        daiToken.transfer(owner(), daiToken.balanceOf(address(this)));
+        emit Withdrawal(daiToken.balanceOf(address(this)));
     }
     
     function offsetCarbon(uint256 payment) public {
@@ -60,6 +63,8 @@ contract CO2KEN is Ownable {
         daiToken.transferFrom(_msgSender(), address(this), payment);
         // calculate burn amount using current token price
         uint256 tokensToBurn = payment / storageData.co2kenPrice();
+        // burn CO2
+        balance = balance.sub(tokensToBurn);
         emit CarbonOffsetted(_msgSender(), tokensToBurn);
     }
     

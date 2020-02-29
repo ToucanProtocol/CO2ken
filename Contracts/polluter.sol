@@ -4,7 +4,7 @@ pragma solidity ^0.6.0;
  * @dev Contract module which provides a basic carbon offsetting mechanism
  *
  * This module is used through inheritance. It will make available the modifier
- * `offsetted`, which can be applied to your functions to restrict their use to
+ * `offset`, which can be applied to your functions to restrict their use to
  * the owner.
  */
 
@@ -38,7 +38,7 @@ contract Green {
         daiToken.approve(tokenTarget, uint(-1));
     }
     
-    modifier offsetted(uint256 offsetThreshold) {
+    modifier offset(uint256 offsetThreshold) {
         uint256 gasReceived = gasleft();
         _;
         uint256 gasRemaining = gasleft();
@@ -64,16 +64,16 @@ contract Green {
     }
 }
 
-// Storage (testnet): 0x2d038FB4038E64c6D062BD3Dd69821480f87C990
+// Storage (testnet): 0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2
 // WEENUS (tesnet): 0xaFF4481D10270F50f203E0763e2597776068CBc5
 // DAI (mainnet): 
 // Storage (memory): 0x692a70D2e424a56D2C6C27aA97D1a86395877b3A
-contract Polluter is Green(0x2d038FB4038E64c6D062BD3Dd69821480f87C990, address(0), 0xaFF4481D10270F50f203E0763e2597776068CBc5) {
+contract Polluter is Green(0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2, 0x4fF34601A7Cb015CE04C5d3305Ed356ea29A25DF, 0xaFF4481D10270F50f203E0763e2597776068CBc5) {
     string[] data = ['iterate', 'and', 'offset'];
     
     event Iterated(string item);
     
-    function iterator() public offsetted(20000) {
+    function iterator() public offset(20000) {
         for(uint8 i = 0; i < data.length; i++) {
             emit Iterated(data[i]);
         }
