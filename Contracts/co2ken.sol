@@ -1,10 +1,7 @@
 pragma solidity ^0.6.0;
 
-import "@openzeppelin/ownership/Ownable.sol";
-import "@openzeppelin/math/SafeMath.sol";
-
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/ownership/Ownable.sol";
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/ownership/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
 
 abstract contract DaiLike {
     function transferFrom(address src, address dst, uint wad) public virtual returns (bool);
@@ -43,11 +40,11 @@ contract CO2KEN is Ownable {
         daiToken.approve(address(this), uint(-1));
     }
     
-    function burn() public {
+    function burn(uint256 amount) public {
         // @TODO require user has enough dai
         
         // @TODO calculate the amount to burn
-        uint256 burnAmount = 5000000000000000000;
+        uint256 burnAmount = amount;
         
         balance = balance.sub(burnAmount, "ERC20: burn amount exceeds balance");
         // @TODO end dai to owner
