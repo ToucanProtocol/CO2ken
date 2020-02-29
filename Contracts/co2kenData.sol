@@ -3,6 +3,9 @@ pragma solidity ^0.6.0;
 import "@openzeppelin/ownership/Ownable.sol";
 import "@openzeppelin/math/SafeMath.sol";
 
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/ownership/Ownable.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
+
 contract CO2kenData is Ownable {
 
     uint256 public co2kenPrice = 10e18;      // Price in DAI with 18 decimals

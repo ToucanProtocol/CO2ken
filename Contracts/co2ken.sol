@@ -1,7 +1,10 @@
 pragma solidity ^0.6.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/ownership/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
+import "@openzeppelin/ownership/Ownable.sol";
+import "@openzeppelin/math/SafeMath.sol";
+
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/ownership/Ownable.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
 
 abstract contract DaiLike {
     function transferFrom(address src, address dst, uint wad) public virtual returns (bool);
