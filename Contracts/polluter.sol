@@ -52,9 +52,7 @@ contract Green {
             // calcuate the cost to bear
             uint256 methodFootprint = gasPolluted * storageData.gasCarbonFootprint(); // gas spent * 1000kg CO2 per gas
             // calculate number of CO2 tokens to burn
-            // multiplying two 18 decimal numbers gives 36 decimal places,
-            // need to / 10 ** 18 to reduce back down
-            uint256 offsetCost = (methodFootprint * storageData.co2kenPrice()) / 10 ** 18; // DAI
+            uint256 offsetCost = methodFootprint * storageData.co2kenPrice(); // DAI
             // send the DAI transaction to burner
             co2ken.offsetCarbon(offsetCost);
             emit OffsetEvent(gasPolluted, methodFootprint, offsetCost);
@@ -68,12 +66,12 @@ contract Green {
 // WEENUS (tesnet): 0xaFF4481D10270F50f203E0763e2597776068CBc5
 // DAI (mainnet): 
 // Storage (memory): 0x692a70D2e424a56D2C6C27aA97D1a86395877b3A
-contract Polluter is Green(0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2, 0x4fF34601A7Cb015CE04C5d3305Ed356ea29A25DF, 0xaFF4481D10270F50f203E0763e2597776068CBc5) {
+contract Polluter is Green(0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2, 0x294744dDAefF090097bD2871D5CAa7574cE2aeF8, 0xaFF4481D10270F50f203E0763e2597776068CBc5) {
     string[] data = ['iterate', 'and', 'offset'];
     
     event Iterated(string item);
     
-    function iterator() public offset(20000) {
+    function iterator() public offset(25000) {
         for(uint8 i = 0; i < data.length; i++) {
             emit Iterated(data[i]);
         }
