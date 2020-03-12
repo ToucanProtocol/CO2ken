@@ -32,6 +32,11 @@ contract CO2ken is Ownable {
     event CarbonOffsetted(address indexed from, uint256 value);
     event Minted(string ipfsHash, uint256 dollarValue, uint256 tokensMinted);
     event Withdrawal(uint256 value);
+    
+    // --- Math ---
+    function rmul(uint256 x, uint256 y) internal pure returns (uint256 z) {
+        z = mul(x, y) / ONE;
+    }
 
     constructor(address storageTarget, address daiTarget, string memory name, string memory symbol, uint8 decimals) public {
         // set our token detail
@@ -67,6 +72,16 @@ contract CO2ken is Ownable {
         // burn CO2
         balance = balance.sub(tokensToBurn);
         emit CarbonOffsetted(_msgSender(), tokensToBurn);
+    }
+    
+    // tons [27 precision]
+    function offsetCarbonTons(uint256 tons) public {
+        // calculate burn amount using current token price
+        uint256 payment = rmul(tons, storageData.co2kenPrice()); // [wad]
+        daiToken.transferFrom(_msgSender(), address(this), payment);
+        // burn CO2
+        balance = balance.sub(tons);
+        emit CarbonOffsetted(_msgSender(), tons);
     }
     
     function transferOwnership(address newOwner) public virtual override onlyOwner {
