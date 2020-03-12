@@ -1,0 +1,5 @@
+type UserBalance @entity {
+    id: ID!
+    user: Bytes! # address
+    balance: BigInt! # uint256
+}

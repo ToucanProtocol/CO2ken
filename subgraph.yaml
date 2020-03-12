@@ -1,0 +1,35 @@
+specVersion: 0.0.2
+description: CO2ken
+repository: https://github.com/CO2ken/CO2ken
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: CO2ken
+    network: rinkeby
+    source:
+      address: "0x3924a7254145d3a8baAb313A9EB72cb8e6d125f4"
+      abi: CO2ken
+      startBlock: 6119404 # One block before the first transaction firing the CarbonOffsetted event
+      # --> speeds up sync
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - UserBalance
+      abis:
+        - name: CO2ken
+          file: ./abis/co2ken.json
+      eventHandlers:
+        - event: CarbonOffsetted(indexed address,uint256)
+          handler: handleCarbonOffsetted
+        - event: Debug(uint256,uint256)
+          handler: handleDebug
+        - event: Minted(string,uint256,uint256)
+          handler: handleMinted
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Withdrawal(uint256)
+          handler: handleWithdrawal
+      file: ./graph/mapping.ts

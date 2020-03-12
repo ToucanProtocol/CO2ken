@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ benesjan/co2ken",
+    "create-local": "graph create --node http://localhost:8020/ benesjan/co2ken",
+    "remove-local": "graph remove --node http://localhost:8020/ benesjan/co2ken",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 benesjan/co2ken"
   },
   "repository": {
     "type": "git",
@@ -17,6 +22,8 @@
   },
   "homepage": "https://github.com/raphmc/CO2ken#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^2.5.0"
+    "@openzeppelin/contracts": "^2.5.0",
+    "@graphprotocol/graph-cli": "0.17.1",
+    "@graphprotocol/graph-ts": "0.17.0"
   }
 }
