@@ -19,4 +19,4 @@ To setup and deploy subgraph run the following commands:
 
 >graph auth https://api.thegraph.com/deploy/ GRAPH_AUTH_TOKEN
 
->graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ CO2ken
+>graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ benesjan/CO2ken
