@@ -32,4 +32,4 @@ dataSources:
           handler: handleOwnershipTransferred
         - event: Withdrawal(uint256)
           handler: handleWithdrawal
-      file: ./graph/mapping.ts
+      file: ./src/mapping.ts

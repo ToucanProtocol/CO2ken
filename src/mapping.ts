@@ -1,4 +1,4 @@
-import {BigInt} from "@graphprotocol/graph-ts"
+import {BigInt, log} from "@graphprotocol/graph-ts"
 import {
     CarbonOffsetted,
     Debug,
@@ -14,11 +14,13 @@ export function handleCarbonOffsetted(event: CarbonOffsetted): void {
     if (userBalance == null) {
         userBalance = new UserBalance(id)
         // TODO: check if the capacity is ok
-        userBalance.balance = new BigInt(32)
+        userBalance.balance = new BigInt(1024)
+        log.info("Creating new UserBalance entity for address {}", [id])
     }
-    userBalance.user = event.params.from
-    userBalance.balance.plus(event.params.value)
+    userBalance.balance = userBalance.balance.plus(event.params.value)
     userBalance.save()
+    log.info("User balance was increased by {} tokens. Resulting user balance: {}",
+        [event.params.value.toString(), userBalance.balance.toString()])
 }
 
 export function handleDebug(event: Debug): void {
