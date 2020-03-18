@@ -1,0 +1,4 @@
+type UserBalance @entity {
+    id: ID! # Ethereum address of the user
+    balance: BigInt! # uint256
+}
