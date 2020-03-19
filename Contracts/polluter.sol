@@ -1,11 +1,10 @@
 pragma solidity ^0.6.0;
 
 /**
- * @dev Contract module which provides a basic carbon offsetting mechanism
- *
+ * Contract module which provides a basic carbon offsetting mechanism.
  * This module is used through inheritance. It will make available the modifier
- * `offset`, which can be applied to your functions to restrict their use to
- * the owner.
+ * `offset`, which can be applied to your functions to offset the carbon
+ * footprint of the function itself.
  */
 
 abstract contract CO2kenLike {
@@ -30,6 +29,7 @@ contract Green {
     
     event OffsetEvent(uint256 totalGasOffset, uint256 methodFootprint, uint256 tokensBurned);
     
+    // @TODO hard code constructor arguments
     constructor(address storageTarget, address tokenTarget, address daiTarget) public {
         storageData = CO2kenDataLike(storageTarget);
         co2ken = CO2kenLike(tokenTarget);
@@ -38,6 +38,9 @@ contract Green {
         daiToken.approve(tokenTarget, uint(-1));
     }
     
+    /**
+     * @param offsetThreshold allows for batching of offset payments
+     */
     modifier offset(uint256 offsetThreshold) {
         uint256 gasReceived = gasleft();
         _;
@@ -64,8 +67,12 @@ contract Green {
 
 // Storage (testnet): 0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2
 // WEENUS (tesnet): 0xaFF4481D10270F50f203E0763e2597776068CBc5
-// DAI (mainnet): 
 // Storage (memory): 0x692a70D2e424a56D2C6C27aA97D1a86395877b3A
+
+/**
+ * @dev demonstration contract to show how a simple iterator()
+ * function has its carbon emissions offset
+ */ 
 contract Polluter is Green(0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2, 0x294744dDAefF090097bD2871D5CAa7574cE2aeF8, 0xaFF4481D10270F50f203E0763e2597776068CBc5) {
     string[] data = ['iterate', 'and', 'offset'];
     

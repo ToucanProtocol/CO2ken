@@ -1,5 +1,10 @@
 pragma solidity ^0.6.0;
 
+/**
+ * Allows for the minting and retiring of CO2kens (a carbon
+ * certificate token) as a means for offsetting carbon emissions
+ */
+
 // import "@openzeppelin/contracts/ownership/Ownable.sol";
 // import "@openzeppelin/contracts/math/SafeMath.sol";
 
@@ -50,6 +55,11 @@ contract CO2ken is Ownable {
     }
     
     // @dev amountTokens = number of tokens (certificates bought) in 10e18
+
+    /**
+     * @param ipfsHash the ipfsHash storing the carbon certifcate
+     * @param amountTokens a fixed point integer with 18 decimals
+     */
     function mint(string memory ipfsHash, uint256 amountTokens) public onlyOwner() {
         balance = balance.add(amountTokens);
         emit Minted(ipfsHash, amountTokens, storageData.co2kenPrice());
@@ -64,22 +74,29 @@ contract CO2ken is Ownable {
         emit Withdrawal(daiToken.balanceOf(address(this)));
     }
     
+    /**
+     * @dev allow users to offset using dollar-denominated payment
+     * @param payment paid in DAI tokens
+     */
     function offsetCarbon(uint256 payment) public {
         // receive the DAI payment
         daiToken.transferFrom(_msgSender(), address(this), payment);
-        // calculate burn amount using current token price
+        // @dev if payment < co2kenPrice will throw error as result < 1
         uint256 tokensToBurn = payment / storageData.co2kenPrice();
         // burn CO2
         balance = balance.sub(tokensToBurn);
         emit CarbonOffsetted(_msgSender(), tokensToBurn);
     }
     
-    // tons [27 precision]
+    /**
+     * @dev allow users to offset using tons CO2 emitted
+     * @param tons a fixed point integer with 27 decimals
+     */
     function offsetCarbonTons(uint256 tons) public {
-        // calculate burn amount using current token price
-        uint256 payment = rmul(tons, storageData.co2kenPrice()); // [wad]
+        // calculate retire amount using current token price
+        uint256 payment = rmul(tons, storageData.co2kenPrice());
         daiToken.transferFrom(_msgSender(), address(this), payment);
-        // burn CO2
+        // retire CO2
         balance = balance.sub(tons);
         emit CarbonOffsetted(_msgSender(), tons);
     }
