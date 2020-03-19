@@ -81,7 +81,6 @@ contract CO2ken is Ownable {
     function offsetCarbon(uint256 payment) public {
         // receive the DAI payment
         daiToken.transferFrom(_msgSender(), address(this), payment);
-        // @dev if payment < co2kenPrice will throw error as result < 1
         uint256 tokensToBurn = payment / storageData.co2kenPrice();
         // burn CO2
         balance = balance.sub(tokensToBurn);
