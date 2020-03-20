@@ -2,3 +2,9 @@ type UserBalance @entity {
     id: ID! # Ethereum address of the user
     balance: BigInt! # uint256
 }
+
+type ContractBalance @entity {
+    id: ID! # Ethereum address of the CO2ken contract
+    available: BigInt! # uint 256 - current balance of available tokens
+    offsetted: BigInt! # unit 256 - balance of all the offseted tokens
+}
