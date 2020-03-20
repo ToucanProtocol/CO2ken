@@ -1,133 +1,73 @@
 pragma solidity ^0.6.0;
 
 /**
- * Allows for the minting and retiring of CO2kens (a carbon
- * certificate token) as a means for offsetting carbon emissions
+ * CO2ken storage contract with ownable setters
+ * and public getters
  */
 
-// @dev used for importing in truffle
-// import "@openzeppelin/contracts/ownership/Ownable.sol";
-// import "@openzeppelin/contracts/math/SafeMath.sol";
+//import "@openzeppelin/contracts/ownership/Ownable.sol";
+//import "@openzeppelin/contracts/math/SafeMath.sol";
 
-// @dev used for importing in remix
+// @dev for imports in remix
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
 
-abstract contract CO2kenDataLike {
-    uint256 public co2kenPrice;
-}
+contract CO2kenData is Ownable {
+    uint256 public co2kenPrice; // Price in DAI with 18 decimals
 
-abstract contract DaiLike {
-    function transferFrom(address src, address dst, uint wad) public virtual returns (bool);
-    function balanceOf(address tokenOwner) public view virtual returns (uint balance);
-    function transfer(address dst, uint wad) external virtual returns (bool);
-    function approve(address usr, uint wad) external virtual returns (bool);
-}
+    // https://digiconomist.net/ethereum-energy-consumption
+    //uint256 txCarbonFootprint = 31000000;    // mWh per Ethereum TX (1000 milliWattHours = 1 Wh)
 
-contract CO2ken is Ownable {
-    string private _name;
-    string private _symbol;
-    uint8 private _decimals;
-    
-    CO2kenDataLike storageData;
-    DaiLike daiToken;
-    
-    using SafeMath for uint256;
+    // https://hackernoon.com/green-smart-contracts-theres-more-to-blockchain-energy-consumption-than-consensus-898fb23eea75
+    // https://twitter.com/CryptoDemetrius/status/1144357399744196609
+    uint256 public gasEnergyFootprint = 407470449796862; // kWh/gas with 18 decimals
 
-    uint256 public balance;
-    
-    event CarbonOffsetted(address indexed from, uint256 value);
-    event Minted(string ipfsHash, uint256 dollarValue, uint256 tokensMinted);
-    event Withdrawal(uint256 value);
-    
-    // --- Math ---
-    function rmul(uint256 x, uint256 y) internal pure returns (uint256 z) {
-        z = mul(x, y) / 10e18;
-    }
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-        // benefit is lost if 'b' is also tested.
-        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-        if (a == 0) {
-            return 0;
-        }
+    // Grid emission factor of China from https://www.iges.or.jp/en/pub/list-grid-emission-factor/en
+    // Calculations on https://docs.google.com/spreadsheets/d/1IpgKLB5e6JR12gjSplZ-Y1_xB9ylt8SNFyEKmhPtQ1A/edit?usp=sharing
+    uint256 public gridEmissionFactor = 872000000000000; // tCO2/kWh with 18 decimals
 
-        uint256 c = a * b;
-        require(c / a == b, "SafeMath: multiplication overflow");
+    // https://hackernoon.com/green-smart-contracts-theres-more-to-blockchain-energy-consumption-than-consensus-898fb23eea75
+    // https://twitter.com/CryptoDemetrius/status/1144357399744196609
+    // Is equal to gasEnergyFootprint * gridEmissionFactor
+    uint256 public gasCarbonFootprint = 355314232223; // tCO2/gas with 18 decimals
 
-        return c;
+    event CO2kenPriceChanged(uint256 newPrice);
+    event GasEnergyFootprintChanged(uint256 newGasEnergyFootprint);
+    event GridEmissionFactorChanged(uint256 newGridEmissionFactor);
+    event GasCarbonFootprintChanged(uint256 newGasCarbonFootprint);
+
+    constructor(uint256 _co2kenPrice) public {
+        co2kenPrice = _co2kenPrice;
+        emit CO2kenPriceChanged(_co2kenPrice);
     }
 
-    constructor(address storageTarget, address daiTarget, string memory name, string memory symbol, uint8 decimals) public {
-        // set our token detail
-        _name = name;
-        _symbol = symbol;
-        _decimals = decimals;
-        // interface with dai token
-        daiToken = DaiLike(daiTarget);
-        // interface with our "oracle"
-        storageData = CO2kenDataLike(storageTarget);
-    }
-    
-    // @dev amountTokens = number of tokens (certificates bought) in 10e18
-
-    /**
-     * @param ipfsHash the ipfsHash storing the carbon certifcate
-     * @param amountTokens a fixed point integer with 18 decimals
-     */
-    function mint(string memory ipfsHash, uint256 amountTokens) public onlyOwner() {
-        balance = balance.add(amountTokens);
-        emit Minted(ipfsHash, amountTokens, storageData.co2kenPrice());
-    }
-    
-    function approve() public {
-        daiToken.approve(address(this), uint(-1));
+    function setCO2kenPrice(uint256 _co2kenPrice) public onlyOwner() {
+        co2kenPrice = _co2kenPrice;
+        emit CO2kenPriceChanged(_co2kenPrice);
     }
 
-    function withdraw() public onlyOwner() {
-        daiToken.transfer(owner(), daiToken.balanceOf(address(this)));
-        emit Withdrawal(daiToken.balanceOf(address(this)));
+    function setGasEnergyFootprint(uint256 _gasEnergyFootprint)
+        public
+        onlyOwner()
+    {
+        gasEnergyFootprint = _gasEnergyFootprint;
+        emit GasEnergyFootprintChanged(_gasEnergyFootprint);
     }
-    
-    /**
-     * @dev allow users to offset using dollar-denominated payment
-     * @param payment paid in DAI tokens
-     */
-    function offsetCarbon(uint256 payment) public {
-        // receive the DAI payment
-        daiToken.transferFrom(_msgSender(), address(this), payment);
-        uint256 tokensToBurn = payment / storageData.co2kenPrice();
-        // burn CO2
-        balance = balance.sub(tokensToBurn);
-        emit CarbonOffsetted(_msgSender(), tokensToBurn);
+
+    function setGridEmissionFactor(uint256 _gridEmissionFactor)
+        public
+        onlyOwner()
+    {
+        gridEmissionFactor = _gridEmissionFactor;
+        emit GridEmissionFactorChanged(_gridEmissionFactor);
     }
-    
-    /**
-     * @dev allow users to offset using tons CO2 emitted
-     * @param tons a fixed point integer with 27 decimals
-     */
-    function offsetCarbonTons(uint256 tons) public {
-        // calculate retire amount using current token price
-        uint256 payment = rmul(tons, storageData.co2kenPrice());
-        daiToken.transferFrom(_msgSender(), address(this), payment);
-        // retire CO2
-        balance = balance.sub(tons);
-        emit CarbonOffsetted(_msgSender(), tons);
+
+    function setGasCarbonFootprint(uint256 _gasCarbonFootprint)
+        public
+        onlyOwner()
+    {
+        gasCarbonFootprint = _gasCarbonFootprint;
+        emit GasCarbonFootprintChanged(_gasCarbonFootprint);
     }
-    
-    function transferOwnership(address newOwner) public virtual override onlyOwner {
-        _transferOwnership(newOwner);
-    }
-    
-    function name() public view returns (string memory) {
-        return _name;
-    }
-    
-    function symbol() public view returns (string memory) {
-        return _symbol;
-    }
-    
-    function decimals() public view returns (uint8) {
-        return _decimals;
-    }
+
 }
