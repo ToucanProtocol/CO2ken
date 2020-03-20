@@ -5,11 +5,12 @@ pragma solidity ^0.6.0;
  * certificate token) as a means for offsetting carbon emissions
  */
 
+// @dev used for importing in truffle
 // import "@openzeppelin/contracts/ownership/Ownable.sol";
 // import "@openzeppelin/contracts/math/SafeMath.sol";
 
-// @dev for imports in remix
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/ownership/Ownable.sol";
+// @dev used for importing in remix
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
 
 abstract contract CO2kenDataLike {
@@ -41,7 +42,7 @@ contract CO2ken is Ownable {
     
     // --- Math ---
     function rmul(uint256 x, uint256 y) internal pure returns (uint256 z) {
-        z = mul(x, y) / ONE;
+        z = mul(x, y) / 10e18;
     }
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
         // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
