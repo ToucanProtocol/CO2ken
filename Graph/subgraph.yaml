@@ -20,7 +20,7 @@ dataSources:
         - ContractBalance
       abis:
         - name: CO2ken
-          file: ./abis/co2ken.json
+          file: ../abis/co2ken.json
       eventHandlers:
         - event: CarbonOffsetted(indexed address,uint256)
           handler: handleCarbonOffsetted
