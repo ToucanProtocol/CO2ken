@@ -25,12 +25,12 @@ Also contains the `Polluter` contract which `is Green` to demonstrate modifier f
 
 ### Contract Addresses
 
-**Rinkeby**
+**Ropsten**
 
-CO2kenData - 0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2
+CO2kenData - 0x11e3C0DE7E93e1b0Bc96A63a43aE0C84C9065673
 
-CO2ken (for demo) - 0x6a1B0C693DD4AA99bA8E93247AA221Fb30525Cfe
+CO2ken (for demo) - 0x63f6993aBF909718790D2EC082E4FeF110CEaBAB
 
-Polluter (is Green) - 0x57AaFA7eA3D66e2C9540d455BDBe093De9DB6bf4
+Polluter (is Green) - NOT_DEPLOYED
 
-WEENUS (test ERC20) - collect test WEENUS by visiting https://rinkeby.etherscan.io/token/0xaff4481d10270f50f203e0763e2597776068cbc5#writeContract connecting web3 wallet and write to `drip()`
+WEENUS (test ERC20) - collect test WEENUS by visiting https://ropsten.etherscan.io/address/0x101848D5C5bBca18E6b4431eEdF6B95E9ADF82FA#writeContract connecting web3 wallet and write to `drip()`
