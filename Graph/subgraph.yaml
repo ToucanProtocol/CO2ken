@@ -8,9 +8,9 @@ dataSources:
     name: CO2ken
     network: ropsten
     source:
-      address: "0x11e3C0DE7E93e1b0Bc96A63a43aE0C84C9065673"
+      address: "0x93Ec2167Da2A83fbBE61567F67F71750C13B9C09"
       abi: CO2ken
-      startBlock: 6072715  # The block in which the contract was deployed
+      startBlock: 6229304  # The block in which the contract was deployed
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
