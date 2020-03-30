@@ -7,9 +7,9 @@ To setup and deploy subgraph run the following commands:
     npm install
     npm run codegen
 
-    graph auth https://api.thegraph.com/deploy/ GRAPH_AUTH_TOKEN
+    npx graph auth https://api.thegraph.com/deploy/ GRAPH_AUTH_TOKEN
 
-    graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ benesjan/CO2ken
+    npx graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ benesjan/CO2ken
 
 ## Requesting data
 
