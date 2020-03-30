@@ -24,12 +24,9 @@ dataSources:
       eventHandlers:
         - event: CarbonOffsetted(indexed address,uint256)
           handler: handleCarbonOffsetted
-        - event: Debug(uint256,uint256)
-          handler: handleDebug
         - event: Minted(string,uint256,uint256)
           handler: handleMinted
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-        - event: Withdrawal(uint256)
-          handler: handleWithdrawal
+      callHandlers:
+        - function: offsetCarbon(uint256)
+          handler: handleOffsetCarbon
       file: ./src/mapping.ts

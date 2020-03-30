@@ -1,39 +1,48 @@
 import {BigInt, log} from "@graphprotocol/graph-ts"
 import {
     CarbonOffsetted,
-    Debug,
     Minted,
-    OwnershipTransferred,
-    Withdrawal
+    OffsetCarbonCall
 } from "../generated/CO2ken/CO2ken"
 import {UserBalance, ContractBalance} from "../generated/schema"
 
-export function handleCarbonOffsetted(event: CarbonOffsetted): void {
-    let newlyOffsetted = event.params.value
-
-    let userId = event.params.from.toHex()
-    let contractId = event.address.toHex()
-
+function _getUserBalance(userId: string): UserBalance {
     let userBalance = UserBalance.load(userId)
-    let contractBalance = ContractBalance.load(contractId)
-
     if (userBalance == null) {
         userBalance = new UserBalance(userId)
         // TODO: check if the capacity is ok
         userBalance.balance = new BigInt(1024)
         log.info("Creating new UserBalance entity for address {}", [userId])
     }
+    // Casting from <UserBalance | null> to <UserBalance>
+    return <UserBalance> userBalance
+}
 
+function _getContractBalance(contractId: string): ContractBalance {
+    let contractBalance = ContractBalance.load(contractId)
     if (contractBalance == null) {
         contractBalance = new ContractBalance(contractId)
         // TODO: check if the capacity is ok
         contractBalance.available = new BigInt(1024)
         contractBalance.offsetted = new BigInt(1024)
+        contractBalance.erc20received = new BigInt(1024)
         log.info("Creating new ContractBalance entity for address {}", [contractId])
     }
+    // Casting from <ContractBalance | null> to <ContractBalance>
+    return <ContractBalance> contractBalance
+}
+
+export function handleCarbonOffsetted(event: CarbonOffsetted): void {
+    let newlyOffsetted = event.params.value,
+        userId = event.params.from.toHex(),
+        contractId = event.address.toHex()
+
+    let userBalance = _getUserBalance(userId),
+        contractBalance = _getContractBalance(contractId)
 
     userBalance.balance = userBalance.balance.plus(newlyOffsetted)
     userBalance.save()
+
     log.info("User balance was increased by {} tokens. Resulting user balance: {}",
         [newlyOffsetted.toString(), userBalance.balance.toString()])
 
@@ -42,33 +51,29 @@ export function handleCarbonOffsetted(event: CarbonOffsetted): void {
     contractBalance.save()
 }
 
-export function handleDebug(event: Debug): void {
-}
-
 export function handleMinted(event: Minted): void {
-    let newlyMinted = event.params.tokensMinted
+    let newlyMinted = event.params.tokensMinted,
+        contractId = event.address.toHex()
 
-    let contractId = event.address.toHex()
-
-    let contractBalance = ContractBalance.load(contractId)
-
-    if (contractBalance == null) {
-        contractBalance = new ContractBalance(contractId)
-        // TODO: check if the capacity is ok
-        contractBalance.available = new BigInt(1024)
-        contractBalance.offsetted = new BigInt(1024)
-        log.info("Creating new ContractBalance entity for address {}", [contractId])
-    }
-
-    log.info("Available token balance was increased by {} tokens. Resulting user balance: {}",
-        [newlyMinted.toString(), contractBalance.available.toString()])
+    let contractBalance = _getContractBalance(contractId)
 
     contractBalance.available = contractBalance.available.plus(newlyMinted)
     contractBalance.save()
+
+    log.info("Available token balance was increased by {} tokens. Resulting user balance: {}",
+        [newlyMinted.toString(), contractBalance.available.toString()])
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {
-}
+export function handleOffsetCarbon(call: OffsetCarbonCall): void {
+    let contractId = call.to.toHex(),
+        payment = call.inputValues[0].value.toBigInt()
 
-export function handleWithdrawal(event: Withdrawal): void {
+    let contractBalance = _getContractBalance(contractId)
+
+    contractBalance.erc20received = contractBalance.erc20received.plus(payment)
+    contractBalance.save()
+
+    log.info("The amount of ERC20 tokens received increased by {} tokens," +
+        " resulting in total amount of {} tokens received.",
+        [payment.toString(), contractBalance.erc20received.toString()])
 }
