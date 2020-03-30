@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: CO2ken
-    network: ropsten
+    network: rinkeby
     source:
       address: "0x93Ec2167Da2A83fbBE61567F67F71750C13B9C09"
       abi: CO2ken
