@@ -19,8 +19,11 @@ abstract contract CO2kenDataLike {
 
 abstract contract DaiLike {
     function transferFrom(address src, address dst, uint wad) public virtual returns (bool);
+
     function balanceOf(address tokenOwner) public view virtual returns (uint balance);
+
     function transfer(address dst, uint wad) external virtual returns (bool);
+
     function approve(address usr, uint wad) external virtual returns (bool);
 }
 
@@ -28,34 +31,21 @@ contract CO2ken is Ownable {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
-    
+
     CO2kenDataLike storageData;
     DaiLike daiToken;
-    
+
     using SafeMath for uint256;
 
     uint256 public balance;
-    
+
     event CarbonOffsetted(address indexed from, uint256 value);
     event Minted(string ipfsHash, uint256 dollarValue, uint256 tokensMinted);
     event Withdrawal(uint256 value);
-    
+
     // --- Math ---
     function rmul(uint256 x, uint256 y) internal pure returns (uint256 z) {
-        z = mul(x, y) / 10e18;
-    }
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-        // benefit is lost if 'b' is also tested.
-        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-        if (a == 0) {
-            return 0;
-        }
-
-        uint256 c = a * b;
-        require(c / a == b, "SafeMath: multiplication overflow");
-
-        return c;
+        z = SafeMath.mul(x, y) / 10e18;
     }
 
     constructor(address storageTarget, address daiTarget, string memory name, string memory symbol, uint8 decimals) public {
@@ -68,7 +58,7 @@ contract CO2ken is Ownable {
         // interface with our "oracle"
         storageData = CO2kenDataLike(storageTarget);
     }
-    
+
     // @dev amountTokens = number of tokens (certificates bought) in 10e18
 
     /**
@@ -79,16 +69,16 @@ contract CO2ken is Ownable {
         balance = balance.add(amountTokens);
         emit Minted(ipfsHash, amountTokens, storageData.co2kenPrice());
     }
-    
+
     function approve() public {
-        daiToken.approve(address(this), uint(-1));
+        daiToken.approve(address(this), uint(- 1));
     }
 
     function withdraw() public onlyOwner() {
         daiToken.transfer(owner(), daiToken.balanceOf(address(this)));
         emit Withdrawal(daiToken.balanceOf(address(this)));
     }
-    
+
     /**
      * @dev allow users to offset using dollar-denominated payment
      * @param payment paid in DAI tokens
@@ -101,7 +91,7 @@ contract CO2ken is Ownable {
         balance = balance.sub(tokensToBurn);
         emit CarbonOffsetted(_msgSender(), tokensToBurn);
     }
-    
+
     /**
      * @dev allow users to offset using tons CO2 emitted
      * @param tons a fixed point integer with 27 decimals
@@ -109,24 +99,21 @@ contract CO2ken is Ownable {
     function offsetCarbonTons(uint256 tons) public {
         // calculate retire amount using current token price
         uint256 payment = rmul(tons, storageData.co2kenPrice());
-        daiToken.transferFrom(_msgSender(), address(this), payment);
-        // retire CO2
-        balance = balance.sub(tons);
-        emit CarbonOffsetted(_msgSender(), tons);
+        offsetCarbon(payment);
     }
-    
+
     function transferOwnership(address newOwner) public virtual override onlyOwner {
         _transferOwnership(newOwner);
     }
-    
+
     function name() public view returns (string memory) {
         return _name;
     }
-    
+
     function symbol() public view returns (string memory) {
         return _symbol;
     }
-    
+
     function decimals() public view returns (uint8) {
         return _decimals;
     }
