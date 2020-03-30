@@ -31,6 +31,6 @@ CO2kenData - 0x127AE08f45d687dA7887ceA369F2f4D95cb9baf2
 
 CO2ken (for demo) - 0x93Ec2167Da2A83fbBE61567F67F71750C13B9C09
 
-Polluter (is Green) - NOT_DEPLOYED
+Polluter (is Green) - 0xb2306dC4fFa7ad9c028Ac7FcA686C1aBB8895C07
 
 WEENUS (test ERC20) - collect test WEENUS by visiting https://rinkeby.etherscan.io/token/0xaff4481d10270f50f203e0763e2597776068cbc5#writeContract connecting web3 wallet and write to `drip()`
