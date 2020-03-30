@@ -7,5 +7,5 @@ type ContractBalance @entity {
     id: ID! # Ethereum address of the CO2ken contract
     available: BigInt! # uint 256 - current balance of available tokens
     offsetted: BigInt! # unit 256 - balance of all the offseted tokens
-    erc20received: BigInt! # unit 256 - balance of all the ERC20 tokens the contract received
+    daiReceived: BigInt! # unit 256 - balance of all the Dai tokens the contract received
 }

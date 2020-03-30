@@ -22,11 +22,8 @@ dataSources:
         - name: CO2ken
           file: ../abis/co2ken.json
       eventHandlers:
-        - event: CarbonOffsetted(indexed address,uint256)
+        - event: CarbonOffsetted(indexed address,uint256,uint256)
           handler: handleCarbonOffsetted
         - event: Minted(string,uint256,uint256)
           handler: handleMinted
-      callHandlers:
-        - function: offsetCarbon(uint256)
-          handler: handleOffsetCarbon
       file: ./src/mapping.ts
