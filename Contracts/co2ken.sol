@@ -13,10 +13,12 @@ pragma solidity ^0.6.0;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
 
+// Interface to the CO2kenData contract
 abstract contract CO2kenDataLike {
     uint256 public co2kenPrice;
 }
 
+// Interface to the Dai contract
 abstract contract DaiLike {
     function transferFrom(address src, address dst, uint wad) public virtual returns (bool);
 
@@ -27,6 +29,13 @@ abstract contract DaiLike {
     function approve(address usr, uint wad) external virtual returns (bool);
 }
 
+
+/**
+ * CO2ken - a contract implementing the "token" logic (it's not exactly a token as it cannot be transferred).
+ * The contracts just tracks the overall balance of available CO2 tokens (CO2kens). Users do not need to be
+ * tracked by the contract as the amount of CO2kens they bought can be computed offchain by summing the values
+ * in the CarbonOffsetted event.
+ */
 contract CO2ken is Ownable {
     string private _name;
     string private _symbol;
