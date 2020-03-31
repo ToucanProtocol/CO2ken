@@ -1,8 +1,8 @@
 pragma solidity ^0.6.0;
 
 /**
- * CO2ken storage contract with ownable setters
- * and public getters
+ * CO2kenData - a contract containing the necessary information for carbon footprint estimation.
+ * Used by CO2ken contract and Green contract.
  */
 
 //import "@openzeppelin/contracts/ownership/Ownable.sol";

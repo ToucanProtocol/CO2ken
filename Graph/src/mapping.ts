@@ -5,6 +5,11 @@ import {
 } from "../generated/CO2ken/CO2ken"
 import {UserBalance, ContractBalance} from "../generated/schema"
 
+/**
+ * The script loads a UserBalance entity for a given address. In case it doesn't exist it instantiates a new one.
+ * @param userId: Ethereum address of a given user
+ * @returns an instance of UserBalance
+ */
 function _getUserBalance(userId: string): UserBalance {
     let userBalance = UserBalance.load(userId)
     if (userBalance == null) {
@@ -18,6 +23,11 @@ function _getUserBalance(userId: string): UserBalance {
     return <UserBalance>userBalance
 }
 
+/**
+ * The script loads a ContractBalance entity for a given address. In case it doesn't exist it instantiates a new one.
+ * @param contractId: Ethereum address of a given contract
+ * @returns an instance of ContractBalance
+ */
 function _getContractBalance(contractId: string): ContractBalance {
     let contractBalance = ContractBalance.load(contractId)
     if (contractBalance == null) {
@@ -32,6 +42,11 @@ function _getContractBalance(contractId: string): ContractBalance {
     return <ContractBalance>contractBalance
 }
 
+/**
+ * The script updates UserBalance and ContractBalance with values from CarbonOffsetted event.
+ * @param event: an event to process
+ * @returns nothing
+ */
 export function handleCarbonOffsetted(event: CarbonOffsetted): void {
     let newlyOffsetted = event.params.value,
         userId = event.params.from.toHex(),
@@ -58,6 +73,11 @@ export function handleCarbonOffsetted(event: CarbonOffsetted): void {
         [daiAmount.toString(), contractBalance.daiReceived.toString()])
 }
 
+/**
+ * The script updates ContractBalance with values from Minted event.
+ * @param event: an event to process
+ * @returns nothing
+ */
 export function handleMinted(event: Minted): void {
     let newlyMinted = event.params.tokensMinted,
         contractId = event.address.toHex()

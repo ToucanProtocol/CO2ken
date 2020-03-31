@@ -7,6 +7,7 @@ pragma solidity ^0.6.0;
  * footprint of the function itself.
  */
 
+// Interfaces to contracts used by the Green contract
 abstract contract CO2kenLike {
     function offsetCarbon(uint256 payment) public virtual;
 }
@@ -20,6 +21,11 @@ abstract contract DaiLike {
     function approve(address usr, uint wad) external virtual returns (bool);
 }
 
+/*
+   Contract containing the offset modifier. Offset modifier allows for offsetting the carbon footprint of methods
+   using this modifier. The amount of emissions to offset is estimated using the overall emission footprint of
+   Ethereum network and gas consumed by the particular method call.
+*/
 contract Green {
     CO2kenDataLike storageData;
     DaiLike daiToken;
