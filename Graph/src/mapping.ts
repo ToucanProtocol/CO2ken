@@ -1,8 +1,7 @@
 import {BigInt, log} from "@graphprotocol/graph-ts"
 import {
     CarbonOffsetted,
-    Minted,
-    OffsetCarbonCall
+    Minted
 } from "../generated/CO2ken/CO2ken"
 import {UserBalance, ContractBalance} from "../generated/schema"
 
@@ -12,6 +11,7 @@ function _getUserBalance(userId: string): UserBalance {
         userBalance = new UserBalance(userId)
         // TODO: check if the capacity is ok
         userBalance.balance = new BigInt(1024)
+        userBalance.daiSpent = new BigInt(1024)
         log.info("Creating new UserBalance entity for address {}", [userId])
     }
     // Casting from <UserBalance | null> to <UserBalance>
@@ -42,6 +42,7 @@ export function handleCarbonOffsetted(event: CarbonOffsetted): void {
         contractBalance = _getContractBalance(contractId)
 
     userBalance.balance = userBalance.balance.plus(newlyOffsetted)
+    userBalance.daiSpent = userBalance.daiSpent.plus(daiAmount)
     userBalance.save()
 
     log.info("User balance was increased by {} tokens. Resulting user balance: {}",

@@ -1,6 +1,7 @@
 type UserBalance @entity {
     id: ID! # Ethereum address of the user
     balance: BigInt! # uint256
+    daiSpent: BigInt! # unit 256 - balance of all the Dai tokens the user sent to the contract
 }
 
 type ContractBalance @entity {
