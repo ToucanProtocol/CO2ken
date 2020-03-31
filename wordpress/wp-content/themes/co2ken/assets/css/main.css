@@ -1,0 +1,107 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: "IBM Plex Mono", monospace;
+  background: #fff;
+  height: 4000px; }
+
+a {
+  color: #00f6aa;
+  font-weight: 600;
+  text-decoration: underline; }
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 980px;
+  padding: 0 20px; }
+
+img {
+  max-width: 100%; }
+
+a.btn {
+  position: relative;
+  top: auto;
+  margin-top: auto;
+  margin-right: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  clear: right;
+  border: 2px solid #333;
+  border-radius: 0px;
+  background-color: #00f6aa;
+  color: #333;
+  display: inline-block;
+  padding: 9px 15px;
+  line-height: inherit;
+  text-decoration: none;
+  cursor: pointer; }
+  a.btn:hover {
+    border-color: #333;
+    background-color: #333;
+    color: #00f6aa; }
+
+.top-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  background-color: rgba(221, 221, 221, 0.89);
+  z-index: 1000; }
+  .top-bar__logo {
+    opacity: 0;
+    width: 89px; }
+  .top-bar .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center; }
+
+.header__logo {
+  display: block;
+  padding: 20px 8px;
+  width: 50%; }
+
+.menu-main-navigation-container .menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 60px;
+  padding: 0 20px;
+  max-width: 980px;
+  margin: 0 auto; }
+  .menu-main-navigation-container .menu a {
+    -webkit-transition: color 200ms ease, background-color 200ms ease;
+    -o-transition: color 200ms ease, background-color 200ms ease;
+    transition: color 200ms ease, background-color 200ms ease;
+    padding: 20px;
+    color: #333;
+    font-weight: 400;
+    text-decoration: none; }
+    .menu-main-navigation-container .menu a:hover {
+      background-color: #333;
+      color: #00f6aa; }
+
+.footer {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  text-align: center; }

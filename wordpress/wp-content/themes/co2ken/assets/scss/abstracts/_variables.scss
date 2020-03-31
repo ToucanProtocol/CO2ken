@@ -1,0 +1,19 @@
+// Colors
+$bg: #171A20;
+$font-color-body: #9a9a9a;
+$brand-primary:         #564ff5;
+$brand-success:         #5cb85c;
+$brand-info:            #5bc0de;
+$brand-warning:         #f0ad4e;
+$brand-danger:          #d9534f;
+
+// Fonts
+$font-family-body: 'IBM Plex Mono', monospace;;
+$font-family-heading: 'IBM Plex Mono', monospace;;
+$font-size-base:          1.4rem;
+$font-size-large:         ceil(($font-size-base * 1.25)); // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)); // ~12px
+
+// Navbar
+$navbar-height: 2rem;
+$meta-height: 3rem;

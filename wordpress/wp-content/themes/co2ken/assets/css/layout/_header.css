@@ -1,0 +1,14 @@
+.header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  background-color: rgba(221, 221, 221, 0.89);
+  background: #dddddd;
+  z-index: 1000;
+  height: 60px; }
+
+.menu-main-navigation-container .menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none; }
