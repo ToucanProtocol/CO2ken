@@ -15,3 +15,7 @@ ignored unless you talk to us first.
 ## How to contribute
 
 Please see [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## License
+
+Please see [`LICENSE`](LICENSE).
