@@ -5,7 +5,8 @@ prior to mainnet launch, so we're only inviting contributions in
 select areas mostly outside the core.
 
 Here is [a preliminary list of issues for which help would be
-welcome](https://github.com/search?q=org%3ACO2ken+is%3Aopen+label%3A%22help+wanted%22).
+welcome](https://github.com/search?q=org%3ACO2ken+is%3Aopen+label%3A%22help+wanted%22);
+however we're always open to other ideas.
 
 ## Issue tracking
 
