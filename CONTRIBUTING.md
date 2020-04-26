@@ -12,7 +12,8 @@ welcome](https://github.com/search?q=org%3ACO2ken+is%3Aopen+label%3A%22help+want
 Any kind of feedback is very welcome; please first check that your bug
 / issue / enhancement request is not already [listed
 here](https://github.com/search?q=org%3ACO2ken+is%3Aopen), and if not
-then file a new issue.
+then file a new issue.  There is also [a Kanban project
+board](https://github.com/orgs/CO2ken/projects/1).
 
 ## Helping with development
 
