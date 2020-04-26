@@ -1,5 +1,9 @@
 # The Graph
 
+Currently this subgraph is used to generate data for [the CO2ken
+leaderboard](https://www.co2ken.io/leaderboard); however in the future
+it may be used for additional things.
+
 ## Setup and Deployment
 
 To setup and deploy subgraph run the following commands:
