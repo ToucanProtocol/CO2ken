@@ -37,3 +37,12 @@ Currently we're only deployed on Rinkeby.  Mainnet coming soon!
 `Polluter` (`is Green`) - `0xb2306dC4fFa7ad9c028Ac7FcA686C1aBB8895C07`
 
 `WEENUS` (test ERC20) - collect test WEENUS by visiting https://rinkeby.etherscan.io/token/0xaff4481d10270f50f203e0763e2597776068cbc5#writeContract, connecting web3 wallet and write to `drip()`
+
+## Deployment
+
+To deploy the contracts run the following commands:
+
+1. `npm install`
+1. `cp .env.example .env`
+1. set the private key in .env
+1. `oz deploy`
