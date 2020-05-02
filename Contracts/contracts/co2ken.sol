@@ -6,12 +6,8 @@ pragma solidity ^0.6.0;
  */
 
 // @dev used for importing in truffle
-// import "@openzeppelin/contracts/ownership/Ownable.sol";
-// import "@openzeppelin/contracts/math/SafeMath.sol";
-
-// @dev used for importing in remix
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 // Interface to the CO2kenData contract
 abstract contract CO2kenDataLike {
@@ -109,10 +105,6 @@ contract CO2ken is Ownable {
         // calculate retire amount using current token price
         uint256 daiAmount = rmul(tons, storageData.co2kenPrice());
         offsetCarbon(daiAmount);
-    }
-
-    function transferOwnership(address newOwner) public virtual override onlyOwner {
-        _transferOwnership(newOwner);
     }
 
     function name() public view returns (string memory) {

@@ -5,12 +5,8 @@ pragma solidity ^0.6.0;
  * Used by CO2ken contract and Green contract.
  */
 
-//import "@openzeppelin/contracts/ownership/Ownable.sol";
-//import "@openzeppelin/contracts/math/SafeMath.sol";
-
-// @dev for imports in remix
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 contract CO2kenData is Ownable {
     uint256 public co2kenPrice; // Price in DAI with 18 decimals

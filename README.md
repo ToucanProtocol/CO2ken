@@ -4,7 +4,7 @@ This is the main repository for [the CO2ken project](https://www.co2ken.io/).
 
 ## Contents
 
-- [Smart contracts at the heart of CO2ken](Contracts/) and their corresponding [ABIs](abis/)
+- [Smart contracts at the heart of CO2ken](Contracts/contracts/) and their corresponding [ABIs](Contracts/abis/)
 - [Files](DAO/) relating to setup of [the CarbonDAO](http://dao.co2ken.io/).
 - [Files](Graph/) relating to setup of [the CO2ken subgraph of The Graph](https://thegraph.com/explorer/subgraph/benesjan/co2ken)
 - [Prototype of a reimplementation of the frontend in Wordpress](wordpress/)
